@@ -1,6 +1,5 @@
-from flask import Flask, jsonify, render_template, request, send_from_directory
+from flask import render_template, request, send_from_directory
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from config import get_config
 from db import db
 from transaction.services.transaction_service import TransactionService

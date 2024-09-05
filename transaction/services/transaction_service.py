@@ -18,6 +18,11 @@ class TransactionService:
         self.transaction_repository.add_transaction(transaction)
 
     def get_transaction_sum(self, transaction_id):
+        """
+        Get the total sum of a transaction and all its child transactions
+        :param transaction_id:
+        :return:
+        """
         total_sum = 0
         transaction = self.transaction_repository.get_transaction_by_id(transaction_id)
         if transaction:

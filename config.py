@@ -1,4 +1,3 @@
-# config.py
 import os
 
 
@@ -9,17 +8,14 @@ class Config:
 
 
 class SQLiteConfig(Config):
-    """Configuration for in-memory SQLite database"""
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
 
 
 class PostgresConfig(Config):
-    """Configuration for PostgreSQL database"""
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://username:password@localhost/transaction')
 
 
 def get_config():
-    """Returns the configuration class based on the environment"""
     db_type = os.getenv('DB_TYPE', 'sqlite').lower()
     if db_type == 'postgres':
         return PostgresConfig
