@@ -20,10 +20,16 @@ This is a Python project that manages transactions. It uses the Flask framework 
 
 ## Features
 
-- Add a new transaction
-- Get a transaction by its ID
-- Get transactions by their type
-- Get the sum of a transaction and its child transactions
+- Add a new transaction - O(1)
+- Get a transaction by its ID - O(1)
+- Get transactions by their type -O(1)
+- Get the sum of a transaction and its child transactions - worst case O(n)
+
+## UI Endpoints
+Start from the root URL: `http://127.0.0.1:5000` then you can navigate to the following endpoints:
+- \add
+- \sum
+- \type
 
 ## Running Tests
 
