@@ -21,3 +21,12 @@ This is a Python project that manages transactions. It uses the Flask framework 
 - Get a transaction by its ID
 - Get transactions by their type
 - Get the sum of a transaction and its child transactions
+
+## Running Tests
+
+This project uses `unittest`, which is built-in to Python, to run tests. 
+
+To run the tests, navigate to the project's root directory and run the following command:
+
+```bash
+python -m unittest

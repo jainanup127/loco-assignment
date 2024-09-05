@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transaction API</title>
+</head>
+<body>
+    <h1>Transaction API</h1>
+
+    <h2>Get Sum</h2>
+    <form action="/sum" method="post">
+        <label for="transaction_id">Transaction ID:</label>
+        <input type="text" id="transaction_id" name="transaction_id" required>
+        <button type="submit">Get Sum</button>
+    </form>
+
+    <h2>Get Types</h2>
+    <form action="/types" method="post">
+        <label for="type">Transaction Type:</label>
+        <input type="text" id="type" name="type" required>
+        <button type="submit">Get IDs</button>
+    </form>
+</body>
+</html>

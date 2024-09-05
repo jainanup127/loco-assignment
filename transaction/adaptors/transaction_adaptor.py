@@ -17,9 +17,11 @@ class TransactionAdaptor:
     @staticmethod
     def entity_to_dto(transaction: Transaction) -> TransactionResponseDTO:
         """Converts Transaction entity to a DTO"""
-        return TransactionResponseDTO(
-            id=transaction.id,
-            amount=transaction.amount,
-            type=transaction.type,
-            parent_id=transaction.parent_id
-        )
+        if transaction:
+            return TransactionResponseDTO(
+                id=transaction.id,
+                amount=transaction.amount,
+                type=transaction.type,
+                parent_id=transaction.parent_id
+            )
+        return

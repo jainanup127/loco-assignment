@@ -1,8 +1,10 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template, request, send_from_directory
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from config import get_config
 from db import db
+from transaction.services.transaction_service import TransactionService
+
 
 def create_app():
     app = Flask(__name__)
@@ -15,19 +17,35 @@ def create_app():
     return app
 
 
+app = create_app()
 
-app  =create_app()
 
-@app.route('/routes', methods=['GET'])
-def list_routes():
-    routes = []
-    for rule in app.url_map.iter_rules():
-        routes.append({
-            "endpoint": rule.endpoint,
-            "methods": list(rule.methods),
-            "url": str(rule)
-        })
-    return jsonify(routes)
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/sum', methods=['POST'])
+def sum_api():
+    transaction_id = request.form.get('transaction_id')
+    # Call the service to get the sum
+    response = TransactionService().get_transaction_sum(transaction_id)
+    return render_template('sum.html', sum=response)
+
+
+@app.route('/types', methods=['POST'])
+def types_api():
+    transaction_type = request.form.get('type')
+    # Call the service to get transaction IDs
+    transactions = TransactionService().get_transaction_by_type(transaction_type)
+
+    return render_template('types.html', ids=[transaction.id for transaction in transactions])
+
+
+@app.route('/add')
+def add_transaction():
+    return send_from_directory('templates', 'add.html')
+
 
 if __name__ == '__main__':
     with app.app_context():
