@@ -1,1 +1,23 @@
 # loco-assignment
+
+This is a Python project that manages transactions. It uses the Flask framework and SQLAlchemy for database operations.
+
+## Project Structure
+
+- `transaction/` - This directory contains the main transaction management logic.
+  - `models/` - Contains the `Transaction` model.
+  - `repositories/` - Contains the `TransactionRepository` which handles database operations.
+  - `services/` - Contains the `TransactionService` which contains business logic.
+  - `adaptors/` - Contains the `TransactionAdaptor` which is used for converting entities to DTOs.
+
+## Setup
+
+1. Install the required packages: `pip install -r requirements.txt`
+2. Run the application: `python app.py`
+
+## Features
+
+- Add a new transaction
+- Get a transaction by its ID
+- Get transactions by their type
+- Get the sum of a transaction and its child transactions
