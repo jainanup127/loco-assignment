@@ -1,6 +1,7 @@
 # loco-assignment
 
 This is a Python project that manages transactions. It uses the Flask framework and SQLAlchemy for database operations.
+Also leverage pydantic for data validation.
 
 ## Project Structure
 
