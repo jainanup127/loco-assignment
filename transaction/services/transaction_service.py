@@ -1,4 +1,5 @@
 from transaction.adaptors.transaction_adaptor import TransactionAdaptor
+from transaction.exceptions import ParentTransactionNotFoundError
 from transaction.models.transaction import Transaction
 from transaction.repositories.transaction_repository import TransactionRepository
 
@@ -9,6 +10,11 @@ class TransactionService:
         self.transaction_repository = TransactionRepository()
 
     def create_transaction(self, transaction_data):
+        parent_transaction = None
+        if transaction_data.parent_id is not None:
+            parent_transaction = self.transaction_repository.get_transaction_by_id(transaction_data.parent_id)
+            if parent_transaction is None:
+                raise ParentTransactionNotFoundError(transaction_data.parent_id)
         transaction = Transaction(
             id=transaction_data.id,
             amount=transaction_data.amount,

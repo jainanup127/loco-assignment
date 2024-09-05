@@ -1,5 +1,6 @@
 import unittest
 from app import create_app, db
+from transaction.exceptions import ParentTransactionNotFoundError
 from transaction.models.transaction import Transaction
 from transaction.services.transaction_service import TransactionService
 from transaction.dtos.transaction_dto import TransactionDTO
@@ -66,6 +67,14 @@ class TransactionServiceTestCase(unittest.TestCase):
             db.session.remove()
             with self.assertRaises(Exception):
                 dto = TransactionDTO(amount=100.0, type='food', parent_id=None)
+                service.create_transaction(dto)
+
+    def test_create_transaction_error_if_parent_not_found(self):
+        service = TransactionService()
+        with self.app_context:
+            db.session.remove()
+            with self.assertRaises(ParentTransactionNotFoundError):
+                dto = TransactionDTO(id=2, amount=100.0, type='food', parent_id=1)
                 service.create_transaction(dto)
 
 
