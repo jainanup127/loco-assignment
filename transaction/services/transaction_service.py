@@ -23,14 +23,12 @@ class TransactionService:
         :param transaction_id:
         :return:
         """
-        total_sum = 0
-        transaction = self.transaction_repository.get_transaction_by_id(transaction_id)
-        if transaction:
-            total_sum += transaction.amount
-            child_transactions = self.transaction_repository.get_child_transactions(transaction_id)
-            for child in child_transactions:
-                total_sum += self.get_transaction_sum(child.id)
-        return total_sum
+        result = self.transaction_repository.get_transaction_sum(transaction_id)
+        if result is None or result[0] is None:
+            total_amount = 0
+        else:
+            total_amount = result[0]
+        return total_amount
 
     def get_transaction_by_id(self, transaction_id):
         transaction = self.transaction_repository.get_transaction_by_id(transaction_id)
