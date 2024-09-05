@@ -16,6 +16,7 @@ Also leverage pydantic for data validation.
 1. Clone the repository: `git clone`
 2. Navigate to the project's root directory: `cd loco-assignment`
 3. Create a virtual environment: `python -m venv venv`
+4. activate the virtual environment: `source venv/bin/activate`
 4. Install the required packages: `pip install -r requirements.txt`
 5. Run the application: `python app.py`
 
