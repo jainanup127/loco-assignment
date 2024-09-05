@@ -12,8 +12,11 @@ This is a Python project that manages transactions. It uses the Flask framework 
 
 ## Setup
 
-1. Install the required packages: `pip install -r requirements.txt`
-2. Run the application: `python app.py`
+1. Clone the repository: `git clone`
+2. Navigate to the project's root directory: `cd loco-assignment`
+3. Create a virtual environment: `python -m venv venv`
+4. Install the required packages: `pip install -r requirements.txt`
+5. Run the application: `python app.py`
 
 ## Features
 
