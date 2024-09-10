@@ -1,5 +1,5 @@
 from transaction.adaptors.transaction_adaptor import TransactionAdaptor
-from transaction.exceptions import ParentTransactionNotFoundError
+from transaction.exceptions import ParentTransactionNotFoundError, CircularDependencyDetectedError
 from transaction.models.transaction import Transaction
 from transaction.repositories.transaction_repository import TransactionRepository
 
@@ -15,13 +15,26 @@ class TransactionService:
             parent_transaction = self.transaction_repository.get_transaction_by_id(transaction_data.parent_id)
             if parent_transaction is None:
                 raise ParentTransactionNotFoundError(transaction_data.parent_id)
-        transaction = Transaction(
-            id=transaction_data.id,
-            amount=transaction_data.amount,
-            type=transaction_data.type,
-            parent_id=transaction_data.parent_id
-        )
-        self.transaction_repository.add_transaction(transaction)
+
+        while parent_transaction is not None:
+            if parent_transaction.id == transaction_data.id:
+                raise CircularDependencyDetectedError()
+            parent_transaction = self.transaction_repository.get_transaction_by_id(parent_transaction.parent_id)
+
+        existing_transaction = self.transaction_repository.get_transaction_by_id(transaction_data.id)
+        if existing_transaction is not None:
+            existing_transaction.amount = transaction_data.amount
+            existing_transaction.type = transaction_data.type
+            existing_transaction.parent_id = transaction_data.parent_id
+            self.transaction_repository.add_transaction(existing_transaction)
+        else:
+            transaction = Transaction(
+                id=transaction_data.id,
+                amount=transaction_data.amount,
+                type=transaction_data.type,
+                parent_id=transaction_data.parent_id
+            )
+            self.transaction_repository.add_transaction(transaction)
 
     def get_transaction_sum(self, transaction_id):
         """

@@ -2,7 +2,7 @@ from flask import jsonify, request, Blueprint
 from pydantic import ValidationError
 
 from transaction.dtos.transaction_dto import TransactionDTO
-from transaction.exceptions import ParentTransactionNotFoundError
+from transaction.exceptions import ParentTransactionNotFoundError, CircularDependencyDetectedError
 from transaction.services.transaction_service import TransactionService
 
 transaction_blueprint = Blueprint('transaction', __name__, url_prefix='/transactionservice/')
@@ -19,7 +19,9 @@ def add_transaction(transaction_id):
     except ValidationError as e:
         return jsonify({'error': e.errors()}), 400
     except ParentTransactionNotFoundError as e:
-        return jsonify({'error': str(e)}), 404
+        return jsonify({'error': str(e)}), 400
+    except CircularDependencyDetectedError as e:
+        return jsonify({'error': str(e.message)}), 500
     except Exception as e:
         return jsonify({'error': "something is wrong with database"}), 500
 
